@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SangkarMas - Pusat Sangkar Burung Premium</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        wood: {
+                            100: '#F5F5DC', /* Beige */
+                            200: '#E6D6C4',
+                            500: '#8D6E63', /* Light Wood */
+                            800: '#3E2723', /* Dark Wood */
+                            900: '#281815',
+                        },
+                        gold: {
+                            500: '#D4AF37',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Lato"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hero-pattern {
+            background-image: url('https://images.unsplash.com/photo-1620696562689-d45082218158?q=80&w=2832&auto=format&fit=crop'); 
+            background-size: cover;
+            background-position: center;
+        }
+        .hero-overlay {
+            background: linear-gradient(to right, rgba(40, 24, 21, 0.9), rgba(40, 24, 21, 0.6));
+        }
+        .card-zoom:hover img {
+            transform: scale(1.05);
+        }
+        .scroll-hidden::-webkit-scrollbar {
+            display: none;
+        }
+        .custom-shape {
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+        }
+        /* Animasi Keranjang */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        .animate-bounce-custom {
+            animation: bounce 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="font-sans text-wood-900 bg-gray-50">
+
+    <!-- NAVIGATION -->
+    <nav class="fixed w-full z-50 bg-white/95 backdrop-blur-md shadow-md transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2 group">
+                    <div class="w-10 h-10 bg-wood-800 text-gold-500 rounded-full flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-feather-pointed"></i>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-serif font-bold text-wood-800 tracking-wide group-hover:text-wood-500 transition">Sangkar<span class="text-gold-500">Mas</span></span>
+                    </div>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8 font-medium text-wood-800">
+                    <a href="#beranda" class="hover:text-gold-500 transition">Beranda</a>
+                    <a href="#katalog" class="hover:text-gold-500 transition">Katalog</a>
+                    <a href="#custom" class="hover:text-gold-500 transition">Custom Order</a>
+                    <a href="#tentang" class="hover:text-gold-500 transition">Tentang Kami</a>
+                </div>
+
+                <!-- Icons -->
+                <div class="flex items-center space-x-5">
+                    <button class="text-wood-800 hover:text-gold-500 transition hidden sm:block">
+                        <i class="fa-solid fa-magnifying-glass text-xl"></i>
+                    </button>
+                    <button class="text-wood-800 hover:text-gold-500 transition relative" onclick="toggleCart()">
+                        <i class="fa-solid fa-cart-shopping text-xl"></i>
+                        <span id="cart-count" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center opacity-0 transition-opacity duration-300">0</span>
+                    </button>
+                    <button class="text-wood-800 hover:text-gold-500 transition md:hidden" onclick="toggleMobileMenu()">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                    <button class="bg-wood-800 text-white px-5 py-2 rounded-full hover:bg-wood-900 transition hidden md:block text-sm font-bold shadow-lg shadow-wood-800/20">
+                        Login
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full left-0">
+            <div class="flex flex-col p-4 space-y-4 font-medium text-wood-800">
+                <a href="#beranda" class="hover:text-gold-500">Beranda</a>
+                <a href="#katalog" class="hover:text-gold-500">Katalog</a>
+                <a href="#custom" class="hover:text-gold-500">Custom Order</a>
+                <a href="#tentang" class="hover:text-gold-500">Tentang Kami</a>
+                <a href="#" class="text-gold-500 font-bold">Login / Daftar</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="beranda" class="relative h-screen min-h-[600px] flex items-center hero-pattern">
+        <div class="absolute inset-0 hero-overlay"></div>
+        <div class="container mx-auto px-4 relative z-10 flex flex-col md:flex-row items-center gap-10">
+            <div class="w-full md:w-1/2 text-white pt-20">
+                <div class="inline-block bg-gold-500/20 text-gold-500 px-4 py-1 rounded-full text-sm font-bold mb-4 border border-gold-500/50">
+                    <i class="fa-solid fa-crown mr-2"></i> Kualitas #1 Di Indonesia
+                </div>
+                <h1 class="text-5xl md:text-7xl font-serif font-bold leading-tight mb-6">
+                    Hunian Mewah Untuk <span class="text-gold-500 italic">Jawara</span>
+                </h1>
+                <p class="text-lg text-gray-200 mb-8 leading-relaxed max-w-lg">
+                    Temukan koleksi sangkar burung dengan ukiran tangan asli Jepara. Desain presisi untuk kenyamanan burung dan estetika rumah Anda.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#katalog" class="bg-gold-500 text-wood-900 px-8 py-4 rounded-full font-bold text-center hover:bg-yellow-400 transition shadow-lg shadow-gold-500/30">
+                        Belanja Sekarang
+                    </a>
+                    <a href="#custom" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-bold text-center hover:bg-white hover:text-wood-900 transition">
+                        Request Custom
+                    </a>
+                </div>
+                
+                <div class="mt-12 flex gap-8">
+                    <div>
+                        <h4 class="text-3xl font-serif font-bold">500+</h4>
+                        <p class="text-sm text-gray-400">Terjual Bulan Ini</p>
+                    </div>
+                    <div>
+                        <h4 class="text-3xl font-serif font-bold">4.9</h4>
+                        <p class="text-sm text-gray-400">Rating Pelanggan</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KATEGORI -->
+    <section class="py-20 bg-wood-100">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="text-gold-500 font-bold tracking-wider uppercase text-sm">Pilihan Terbaik</span>
+                <h2 class="text-4xl font-serif font-bold text-wood-800 mt-2">Kategori Populer</h2>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Category 1 -->
+                <div class="group cursor-pointer">
+                    <div class="relative overflow-hidden rounded-2xl h-64 mb-4 shadow-xl">
+                        <img src="https://placehold.co/400x600/5D4037/FFFFFF?text=Sangkar+Lomba" alt="Sangkar Lomba" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                            <h3 class="text-white text-xl font-bold group-hover:text-gold-500 transition">Sangkar Lomba</h3>
+                        </div>
+                    </div>
+                </div>
+                <!-- Category 2 -->
+                <div class="group cursor-pointer">
+                    <div class="relative overflow-hidden rounded-2xl h-64 mb-4 shadow-xl">
+                        <img src="https://placehold.co/400x600/8D6E63/FFFFFF?text=Sangkar+Harian" alt="Sangkar Harian" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                            <h3 class="text-white text-xl font-bold group-hover:text-gold-500 transition">Sangkar Harian</h3>
+                        </div>
+                    </div>
+                </div>
+                <!-- Category 3 -->
+                <div class="group cursor-pointer">
+                    <div class="relative overflow-hidden rounded-2xl h-64 mb-4 shadow-xl">
+                        <img src="https://placehold.co/400x600/A1887F/FFFFFF?text=Kandang+Ternak" alt="Kandang Ternak" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                            <h3 class="text-white text-xl font-bold group-hover:text-gold-500 transition">Kandang Ternak</h3>
+                        </div>
+                    </div>
+                </div>
+                <!-- Category 4 -->
+                <div class="group cursor-pointer">
+                    <div class="relative overflow-hidden rounded-2xl h-64 mb-4 shadow-xl">
+                        <img src="https://placehold.co/400x600/3E2723/FFFFFF?text=Aksesoris" alt="Aksesoris" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                            <h3 class="text-white text-xl font-bold group-hover:text-gold-500 transition">Aksesoris</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KATALOG PRODUK -->
+    <section id="katalog" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12">
+                <div>
+                    <h2 class="text-4xl font-serif font-bold text-wood-800">Koleksi Terbaru</h2>
+                    <p class="text-gray-500 mt-2">Dibuat oleh pengrajin profesional dengan detail tinggi.</p>
+                </div>
+                <div class="flex gap-2 mt-4 md:mt-0">
+                    <button class="px-4 py-2 bg-wood-800 text-white rounded-lg text-sm">Semua</button>
+                    <button class="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm hover:bg-gray-200">Murai</button>
+                    <button class="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm hover:bg-gray-200">Lovebird</button>
+                    <button class="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm hover:bg-gray-200">Kenari</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Product Card 1 -->
+                <div class="bg-white rounded-2xl p-4 shadow-lg hover:shadow-2xl transition duration-300 border border-gray-100 card-zoom">
+                    <div class="relative bg-gray-100 rounded-xl overflow-hidden h-64 mb-4">
+                        <span class="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">-15%</span>
+                        <img src="https://placehold.co/400x400/8d6e63/FFFFFF?text=Murai+Batu+No.1" alt="Sangkar Murai" class="w-full h-full object-cover transition duration-500">
+                        <button class="absolute bottom-3 right-3 bg-white w-10 h-10 rounded-full shadow-md flex items-center justify-center text-wood-800 hover:bg-wood-800 hover:text-white transition" onclick="addToCart()">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex text-yellow-400 text-xs">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-wood-800">Sangkar Murai Ukir Naga</h3>
+                        <p class="text-sm text-gray-500">Kayu Jati Grade A</p>
+                        <div class="flex items-center justify-between pt-2">
+                            <div>
+                                <span class="text-xs text-gray-400 line-through">Rp 2.500.000</span>
+                                <div class="text-gold-600 font-bold text-lg">Rp 2.125.000</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 2 -->
+                <div class="bg-white rounded-2xl p-4 shadow-lg hover:shadow-2xl transition duration-300 border border-gray-100 card-zoom">
+                    <div class="relative bg-gray-100 rounded-xl overflow-hidden h-64 mb-4">
+                        <img src="https://placehold.co/400x400/5D4037/FFFFFF?text=Pleci+Klasik" alt="Sangkar Pleci" class="w-full h-full object-cover transition duration-500">
+                        <button class="absolute bottom-3 right-3 bg-white w-10 h-10 rounded-full shadow-md flex items-center justify-center text-wood-800 hover:bg-wood-800 hover:text-white transition" onclick="addToCart()">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="space-y-2">
+                         <div class="flex text-yellow-400 text-xs">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-wood-800">Sangkar Pleci Klasik</h3>
+                        <p class="text-sm text-gray-500">Finishing Natural Doff</p>
+                        <div class="flex items-center justify-between pt-2">
+                            <div class="text-gold-600 font-bold text-lg">Rp 450.000</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 3 -->
+                <div class="bg-white rounded-2xl p-4 shadow-lg hover:shadow-2xl transition duration-300 border border-gray-100 card-zoom">
+                    <div class="relative bg-gray-100 rounded-xl overflow-hidden h-64 mb-4">
+                        <img src="https://placehold.co/400x400/3E2723/FFFFFF?text=Lovebird+Teflon" alt="Sangkar LB" class="w-full h-full object-cover transition duration-500">
+                        <button class="absolute bottom-3 right-3 bg-white w-10 h-10 rounded-full shadow-md flex items-center justify-center text-wood-800 hover:bg-wood-800 hover:text-white transition" onclick="addToCart()">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="space-y-2">
+                         <div class="flex text-yellow-400 text-xs">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-wood-800">Sangkar LB Teflon</h3>
+                        <p class="text-sm text-gray-500">Anti Karat, Kokoh</p>
+                        <div class="flex items-center justify-between pt-2">
+                            <div class="text-gold-600 font-bold text-lg">Rp 850.000</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Card 4 -->
+                <div class="bg-white rounded-2xl p-4 shadow-lg hover:shadow-2xl transition duration-300 border border-gray-100 card-zoom">
+                    <div class="relative bg-gray-100 rounded-xl overflow-hidden h-64 mb-4">
+                        <span class="absolute top-3 left-3 bg-wood-800 text-white text-xs font-bold px-2 py-1 rounded">New</span>
+                        <img src="https://placehold.co/400x400/6D4C41/FFFFFF?text=Kandang+Ternak" alt="Kandang Ternak" class="w-full h-full object-cover transition duration-500">
+                        <button class="absolute bottom-3 right-3 bg-white w-10 h-10 rounded-full shadow-md flex items-center justify-center text-wood-800 hover:bg-wood-800 hover:text-white transition" onclick="addToCart()">
+                            <i class="fa-solid fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="space-y-2">
+                         <div class="flex text-yellow-400 text-xs">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i><i class="fa-regular fa-star"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-wood-800">Kandang Ternak Susun</h3>
+                        <p class="text-sm text-gray-500">Aluminium Premium</p>
+                        <div class="flex items-center justify-between pt-2">
+                            <div class="text-gold-600 font-bold text-lg">Rp 1.500.000</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <button class="border-2 border-wood-800 text-wood-800 px-8 py-3 rounded-full font-bold hover:bg-wood-800 hover:text-white transition">Lihat Semua Produk</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CUSTOM ORDER SECTION -->
+    <section id="custom" class="py-20 bg-wood-900 text-white relative overflow-hidden">
+        <!-- Decoration Circles -->
+        <div class="absolute -top-20 -left-20 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-gold-500/10 rounded-full blur-3xl"></div>
+
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                <div class="lg:w-1/2">
+                    <span class="text-gold-500 font-bold uppercase tracking-widest text-sm mb-2 block">Layanan Eksklusif</span>
+                    <h2 class="text-4xl lg:text-5xl font-serif font-bold mb-6">Wujudkan Sangkar Impian Anda</h2>
+                    <p class="text-gray-300 text-lg mb-8 leading-relaxed">
+                        Punya desain khusus? Ingin ukiran nama burung kesayangan Anda? Tim pengrajin kami siap mewujudkannya. Konsultasikan jenis kayu, ukuran, model jeruji, hingga detail finishing.
+                    </p>
+                    
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-gold-500 flex items-center justify-center text-wood-900">
+                                <i class="fa-solid fa-pen-ruler"></i>
+                            </div>
+                            <span>Desain Bebas (Custom Size & Shape)</span>
+                        </li>
+                        <li class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-gold-500 flex items-center justify-center text-wood-900">
+                                <i class="fa-solid fa-tree"></i>
+                            </div>
+                            <span>Pilihan Kayu Premium (Jati, Sonokeling, Mahoni)</span>
+                        </li>
+                        <li class="flex items-center gap-4">
+                            <div class="w-10 h-10 rounded-full bg-gold-500 flex items-center justify-center text-wood-900">
+                                <i class="fa-solid fa-paintbrush"></i>
+                            </div>
+                            <span>Finishing Sesuai Selera (Glossy, Doff, Rustic)</span>
+                        </li>
+                    </ul>
+
+                    <button class="bg-gold-500 text-wood-900 px-8 py-4 rounded-lg font-bold hover:bg-yellow-400 transition shadow-lg w-full sm:w-auto">
+                        <i class="fa-brands fa-whatsapp mr-2"></i> Chat Admin Sekarang
+                    </button>
+                </div>
+                
+                <div class="lg:w-1/2">
+                    <div class="bg-white/10 backdrop-blur-sm p-8 rounded-3xl border border-white/20">
+                        <h3 class="text-2xl font-serif font-bold mb-6 text-center">Form Estimasi Harga</h3>
+                        <form class="space-y-4">
+                            <div>
+                                <label class="block text-sm text-gray-300 mb-1">Nama Lengkap</label>
+                                <input type="text" class="w-full bg-wood-800 border border-wood-500 rounded-lg px-4 py-3 focus:outline-none focus:border-gold-500 text-white" placeholder="Masukkan nama anda">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm text-gray-300 mb-1">Jenis Sangkar</label>
+                                    <select class="w-full bg-wood-800 border border-wood-500 rounded-lg px-4 py-3 focus:outline-none focus:border-gold-500 text-white">
+                                        <option>Murai</option>
+                                        <option>Kacer</option>
+                                        <option>Pleci</option>
+                                        <option>Lainnya</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm text-gray-300 mb-1">Budget (IDR)</label>
+                                    <select class="w-full bg-wood-800 border border-wood-500 rounded-lg px-4 py-3 focus:outline-none focus:border-gold-500 text-white">
+                                        <option>< 1 Juta</option>
+                                        <option>1 - 3 Juta</option>
+                                        <option>> 3 Juta</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-300 mb-1">Catatan Tambahan</label>
+                                <textarea class="w-full bg-wood-800 border border-wood-500 rounded-lg px-4 py-3 focus:outline-none focus:border-gold-500 text-white h-24" placeholder="Jelaskan detail yang diinginkan..."></textarea>
+                            </div>
+                            <button type="button" class="w-full bg-white text-wood-900 font-bold py-3 rounded-lg hover:bg-gray-200 transition">Kirim Permintaan</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS & TRUST -->
+    <section class="py-20 bg-wood-100">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="text-gold-500 text-4xl mb-4"><i class="fa-solid fa-truck-fast"></i></div>
+                    <h3 class="font-bold text-xl mb-2 text-wood-800">Pengiriman Aman</h3>
+                    <p class="text-gray-500 text-sm">Packing kayu garansi anti rusak hingga ke seluruh pelosok Indonesia.</p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="text-gold-500 text-4xl mb-4"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3 class="font-bold text-xl mb-2 text-wood-800">Transaksi Aman</h3>
+                    <p class="text-gray-500 text-sm">Pembayaran terverifikasi dan perlindungan data pribadi sesuai UU ITE.</p>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                    <div class="text-gold-500 text-4xl mb-4"><i class="fa-solid fa-medal"></i></div>
+                    <h3 class="font-bold text-xl mb-2 text-wood-800">Kualitas Juara</h3>
+                    <p class="text-gray-500 text-sm">Material pilihan grade A yang telah melalui proses QC ketat.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-wood-900 text-white pt-20 pb-10 border-t border-wood-800">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                <!-- Brand -->
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 bg-white text-wood-900 rounded-full flex items-center justify-center text-sm">
+                            <i class="fa-solid fa-feather-pointed"></i>
+                        </div>
+                        <span class="text-2xl font-serif font-bold">Sangkar<span class="text-gold-500">Mas</span></span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                        Pusat penjualan sangkar burung terpercaya. Mengutamakan kualitas seni dan kenyamanan hewan peliharaan Anda.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-wood-800 flex items-center justify-center hover:bg-gold-500 hover:text-wood-900 transition"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-wood-800 flex items-center justify-center hover:bg-gold-500 hover:text-wood-900 transition"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-wood-800 flex items-center justify-center hover:bg-gold-500 hover:text-wood-900 transition"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+
+                <!-- Links -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Menu Cepat</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li><a href="#" class="hover:text-gold-500 transition">Beranda</a></li>
+                        <li><a href="#" class="hover:text-gold-500 transition">Katalog Produk</a></li>
+                        <li><a href="#" class="hover:text-gold-500 transition">Cek Resi</a></li>
+                        <li><a href="#" class="hover:text-gold-500 transition">Testimoni</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Bantuan</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li><a href="#" class="hover:text-gold-500 transition">Cara Pemesanan</a></li>
+                        <li><a href="#" class="hover:text-gold-500 transition">Konfirmasi Pembayaran</a></li>
+                        <li><a href="#" class="hover:text-gold-500 transition">Kebijakan Pengembalian</a></li>
+                        <li><a href="#" class="hover:text-gold-500 transition">Hubungi Kami</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Kontak</h4>
+                    <ul class="space-y-4 text-gray-400 text-sm">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-location-dot mt-1 text-gold-500"></i>
+                            <span>Jl. Raya Jepara No. 123,<br>Jawa Tengah, Indonesia</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-phone text-gold-500"></i>
+                            <span>+62 812 3456 7890</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-envelope text-gold-500"></i>
+                            <span>halo@sangkarmas.id</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-wood-800 pt-8 text-center text-gray-500 text-sm flex flex-col md:flex-row justify-between items-center gap-4">
+                <p>&copy; 2024 SangkarMas. All rights reserved.</p>
+                <p>Designed for CS01SIFE002 Project</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-wood-900 text-white px-6 py-4 rounded-lg shadow-2xl transform translate-y-24 transition-transform duration-300 z-50 flex items-center gap-4">
+        <div class="bg-green-500 rounded-full p-1"><i class="fa-solid fa-check text-xs"></i></div>
+        <div>
+            <h4 class="font-bold text-sm">Berhasil!</h4>
+            <p class="text-xs text-gray-300">Produk ditambahkan ke keranjang.</p>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg', 'bg-white/95');
+                navbar.classList.remove('py-3');
+                navbar.classList.add('py-2');
+            } else {
+                navbar.classList.remove('shadow-lg', 'bg-white/95');
+                navbar.classList.add('py-3');
+                navbar.classList.remove('py-2');
+            }
+        });
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Cart Logic
+        let cartCount = 0;
+        
+        function addToCart() {
+            cartCount++;
+            const cartElement = document.getElementById('cart-count');
+            cartElement.innerText = cartCount;
+            cartElement.classList.remove('opacity-0');
+            cartElement.classList.add('animate-bounce-custom');
+            
+            // Remove animation class after it plays to allow re-trigger
+            setTimeout(() => {
+                cartElement.classList.remove('animate-bounce-custom');
+            }, 500);
+
+            showToast();
+        }
+
+        function toggleCart() {
+            if(cartCount === 0) {
+                alert("Keranjang belanja masih kosong!");
+            } else {
+                alert(`Anda memiliki ${cartCount} item di keranjang. Lanjut ke checkout?`);
+            }
+        }
+
+        // Toast Notification
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-24');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-24');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
